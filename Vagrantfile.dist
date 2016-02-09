@@ -33,6 +33,7 @@ fi
 echo "Provisioning with Ansible..."
 
 # We set PYTHONUNBUFFERED to true so that ansible-playbook output appears "live" when Vagrant provisioning
+sudo PYTHONUNBUFFERED=1 ansible-galaxy install DavidWittman.redis
 sudo PYTHONUNBUFFERED=1 ansible-playbook /vagrant/provisioning/playbook.yml --connection=local -i "[database]127.0.0.1,"
 
 SCRIPT
@@ -45,6 +46,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.synced_folder ".", "/vagrant",
     	:nfs => (RUBY_PLATFORM =~ /linux/ or RUBY_PLATFORM =~ /darwin/)
 
+    # needs to have the ansible-galaxy install DavidWittman.redis added.. not looked into this yet
     #config.vm.provision :ansible_local do |ansible|
     #    ansible.install = true
     #    ansible.playbook = "provisioning/playbook.yml"
