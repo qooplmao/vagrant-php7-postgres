@@ -40,9 +40,7 @@ SCRIPT
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.box = "peterrehm/symfony-php7"
     config.vm.network "private_network", ip: "33.33.33.130"
-    config.vm.hostname = "tm.loc"
-    config.hostmanager.enabled = true
-    config.hostmanager.manage_host = true
+    config.vm.hostname = "hostname.loc"
 
     config.vm.synced_folder ".", "/vagrant",
     	:nfs => (RUBY_PLATFORM =~ /linux/ or RUBY_PLATFORM =~ /darwin/)
@@ -52,7 +50,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #    ansible.playbook = "provisioning/playbook.yml"
     #end
 
-    # needed until 1.8.2
+    # needed until 1.8.2 unless you have patched like
+    # https://github.com/mitchellh/vagrant/commit/9dbdb9397a92d4fc489e9afcb022621df7f60d11 yourself
     config.vm.provision :shell,
         :inline => $DATABASE_PROVISIONING_SCRIPT
 
